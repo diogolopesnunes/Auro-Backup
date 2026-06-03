@@ -1,0 +1,6 @@
+Flask
+Flask-Bcrypt
+validate-docbr
+fdb
+fpdf
+pygal

@@ -36,7 +36,7 @@ def atualizaHistorico(id_usuario, mes, ano):
         cursor.execute("""
             SELECT VALOR, DATA_ATUAL, CONDICAO, ID_MOVIMENTACAO, DESCRICAO
             FROM MOVIMENTACAO
-            WHERE ID_USUARIO = ? AND TIPO = 0 AND EXTRACT(YEAR FROM DATA_ATUAL) = ? AND EXTRACT(MONTH FROM DATA_ATUAL) <= ?
+            WHERE ID_USUARIO = %s AND TIPO = 0 AND EXTRACT(YEAR FROM DATA_ATUAL) = %s AND EXTRACT(MONTH FROM DATA_ATUAL) <= %s
             ORDER BY DATA_ATUAL ASC
         """, (id_usuario, ano, mes,))
         fixas = cursor.fetchall()
@@ -45,7 +45,7 @@ def atualizaHistorico(id_usuario, mes, ano):
         cursor.execute("""
             SELECT VALOR, DATA_ATUAL, CONDICAO, ID_MOVIMENTACAO, DESCRICAO
             FROM MOVIMENTACAO
-            WHERE ID_USUARIO = ? AND EXTRACT(MONTH FROM DATA_ATUAL) = ? AND TIPO = 1
+            WHERE ID_USUARIO = %s AND EXTRACT(MONTH FROM DATA_ATUAL) = %s AND TIPO = 1
             ORDER BY DATA_ATUAL ASC
         """, (id_usuario, mes,))
         movimentacoes = cursor.fetchall()
@@ -54,7 +54,7 @@ def atualizaHistorico(id_usuario, mes, ano):
         cursor.execute("""
             SELECT VALOR, DATA_ATUAL, CONDICAO, ID_MOVIMENTACAO, DESCRICAO
             FROM MOVIMENTACAO
-            WHERE ID_USUARIO = ? AND TIPO = 2 AND EXTRACT(MONTH FROM DATA_ATUAL) = ? AND EXTRACT(YEAR FROM DATA_ATUAL) = ?
+            WHERE ID_USUARIO = %s AND TIPO = 2 AND EXTRACT(MONTH FROM DATA_ATUAL) = %s AND EXTRACT(YEAR FROM DATA_ATUAL) = %s
             ORDER BY DATA_ATUAL ASC
         """, (id_usuario, mes, ano,))
         parcelas = cursor.fetchall()
@@ -75,7 +75,7 @@ def atualizaHistorico(id_usuario, mes, ano):
         cursor.execute("""
             SELECT CAST(SUM(VALOR) AS DOUBLE PRECISION)
             FROM MOVIMENTACAO
-            WHERE ID_USUARIO = ? AND CONDICAO = 1 AND EXTRACT(YEAR FROM DATA_ATUAL) = ? AND EXTRACT(MONTH FROM DATA_ATUAL) = ? AND TIPO = 1
+            WHERE ID_USUARIO = %s AND CONDICAO = 1 AND EXTRACT(YEAR FROM DATA_ATUAL) = %s AND EXTRACT(MONTH FROM DATA_ATUAL) = %s AND TIPO = 1
         """, (id_usuario, ano, mes,))
         receitas_variaveis = cursor.fetchone()[0] or 0
 
@@ -83,7 +83,7 @@ def atualizaHistorico(id_usuario, mes, ano):
         cursor.execute("""
             SELECT CAST(SUM(VALOR) AS DOUBLE PRECISION)
             FROM MOVIMENTACAO
-            WHERE ID_USUARIO = ? AND CONDICAO = 1 AND TIPO = 0 AND EXTRACT(YEAR FROM DATA_ATUAL) = ? AND EXTRACT(MONTH FROM DATA_ATUAL) <= ?
+            WHERE ID_USUARIO = %s AND CONDICAO = 1 AND TIPO = 0 AND EXTRACT(YEAR FROM DATA_ATUAL) = %s AND EXTRACT(MONTH FROM DATA_ATUAL) <= %s
         """, (id_usuario, ano, mes,))
         receitas_fixas = cursor.fetchone()[0] or 0
 
@@ -91,7 +91,7 @@ def atualizaHistorico(id_usuario, mes, ano):
         cursor.execute("""
             SELECT CAST(SUM(VALOR) AS DOUBLE PRECISION)
             FROM MOVIMENTACAO
-            WHERE ID_USUARIO = ? AND EXTRACT(YEAR FROM DATA_ATUAL) = ? AND EXTRACT(MONTH FROM DATA_ATUAL) = ? AND TIPO = 2 AND CONDICAO = 1
+            WHERE ID_USUARIO = %s AND EXTRACT(YEAR FROM DATA_ATUAL) = %s AND EXTRACT(MONTH FROM DATA_ATUAL) = %s AND TIPO = 2 AND CONDICAO = 1
         """, (id_usuario, ano, mes,))
         emprestimos = cursor.fetchone()[0] or 0
 
@@ -99,7 +99,7 @@ def atualizaHistorico(id_usuario, mes, ano):
         cursor.execute("""
             SELECT CAST(SUM(VALOR) AS DOUBLE PRECISION)
             FROM MOVIMENTACAO
-            WHERE ID_USUARIO = ? AND CONDICAO = 0 AND TIPO = 1 AND EXTRACT(YEAR FROM DATA_ATUAL) = ? AND EXTRACT(MONTH FROM DATA_ATUAL) = ?
+            WHERE ID_USUARIO = %s AND CONDICAO = 0 AND TIPO = 1 AND EXTRACT(YEAR FROM DATA_ATUAL) = %s AND EXTRACT(MONTH FROM DATA_ATUAL) = %s
         """, (id_usuario, ano, mes,))
         despesas_variaveis = cursor.fetchone()[0] or 0
 
@@ -107,7 +107,7 @@ def atualizaHistorico(id_usuario, mes, ano):
         cursor.execute("""
             SELECT CAST(SUM(VALOR) AS DOUBLE PRECISION)
             FROM MOVIMENTACAO
-            WHERE ID_USUARIO = ? AND CONDICAO = 0 AND TIPO = 0 AND EXTRACT(YEAR FROM DATA_ATUAL) = ? AND EXTRACT(MONTH FROM DATA_ATUAL) <= ?
+            WHERE ID_USUARIO = %s AND CONDICAO = 0 AND TIPO = 0 AND EXTRACT(YEAR FROM DATA_ATUAL) = %s AND EXTRACT(MONTH FROM DATA_ATUAL) <= %s
         """, (id_usuario, ano, mes,))
         despesas_fixas = cursor.fetchone()[0] or 0
 
@@ -115,7 +115,7 @@ def atualizaHistorico(id_usuario, mes, ano):
         cursor.execute("""
             SELECT CAST(SUM(VALOR) AS DOUBLE PRECISION)
             FROM MOVIMENTACAO
-            WHERE ID_USUARIO = ? AND EXTRACT(YEAR FROM DATA_ATUAL) = ? AND EXTRACT(MONTH FROM DATA_ATUAL) = ? AND TIPO = 2 AND CONDICAO = 0
+            WHERE ID_USUARIO = %s AND EXTRACT(YEAR FROM DATA_ATUAL) = %s AND EXTRACT(MONTH FROM DATA_ATUAL) = %s AND TIPO = 2 AND CONDICAO = 0
         """, (id_usuario, ano, mes,))
         parcelas_emprestimos = cursor.fetchone()[0] or 0
 

@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, flash, redirect, send_file, u
 from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import datetime, date, timedelta
 from validate_docbr import CPF
-import fdb
+import psycopg2
 from fpdf import FPDF
 import pygal
 
@@ -16,8 +16,9 @@ password = 'sysdba'
 
 app.secret_key = 'Auro2025'
 
-con = fdb.connect(host=host, database=database, user=user, password=password)
-
+con = psycopg2.connect(
+    os.environ["DATABASE_URL"]
+)
 
 def validaCpf(usercpf):
     cpf = CPF()
